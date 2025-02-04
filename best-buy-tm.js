@@ -79,7 +79,7 @@
 
  const ITEM_KEYWORD= "PNY"; // NO SPACES IN KEYWORD - ONLY ONE WORD
  const CREDITCARD_CVV = "***"; // BOT will run without changing this value.
- const TESTMODE = "No"; // TESTMODE = "No" will buy the card
+ const TESTMODE = "Yes"; // TESTMODE = "No" will buy the card
  const SMS_DIGITS = "****"; // Enter last 4 digits of phone # for SMS verification (required for verification)
 
  //____ PLEASE WAIT FLAGS : ADVANCED OPTIONS _____________________________
