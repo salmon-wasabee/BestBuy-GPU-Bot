@@ -79,14 +79,14 @@
 
  const ITEM_KEYWORD= "PNY"; // NO SPACES IN KEYWORD - ONLY ONE WORD
  const CREDITCARD_CVV = "***"; // BOT will run without changing this value.
- const TESTMODE = "Yes"; // TESTMODE = "No" will buy the card
+ const TESTMODE = "No"; // TESTMODE = "No" will buy the card
  const SMS_DIGITS = "****"; // Enter last 4 digits of phone # for SMS verification (required for verification)
 
  //____ PLEASE WAIT FLAGS : ADVANCED OPTIONS _____________________________
 
  //const QUEUE_TIME_CUTOFF = 0 // (in Minutes) Keep retrying until queue time is below.
  //onst NEW_QUEUE_TIME_DELAY = 5 // (in Seconds) Ask new queue time set seconds
- const OOS_REFRESH = 10 // (in Seconds) Refresh rate on OOS item.
+ const OOS_REFRESH = 7 // (in Seconds) Refresh rate on OOS item.
 
  //____ LAZY FLAGS : WILL NOT AFFECT BOT PERFORMACE _____________________
 
@@ -326,8 +326,8 @@ function pleasewaitcompletedEventHandler(evt) {
     setTimeout(function() {
         var GotoCartButton;
         // Existing class strings...
-        const GotoCartButton_L1 = "c-button c-button-secondary btn btn-secondary btn-sm c-button-sm btn-block c-button-block";
-        const GotoCartButton_L2 = "c-button c-button-secondary c-button-sm c-button-block";
+        const GotoCartButton_L1 = "c-button-link go-to-cart";
+        const GotoCartButton_L2 = "c-button c-button-secondary c-button-md c-button-block";
         // NEW variant that matches your provided HTML element:
         const GotoCartButton_L3 = "c-button c-button-secondary c-button-md c-button-block";
         if (document.getElementsByClassName(GotoCartButton_L1).length > 0) {
@@ -485,8 +485,8 @@ function pleasewaitcompletedEventHandler(evt) {
                                                                  // Press secondary button
                                                                  console.log("Checking bypass")
                                                                  var GotoCartButton;
-                                                                 const GotoCartButton_L1 = "c-button c-button-secondary btn btn-secondary btn-sm c-button-sm btn-block c-button-block"
-                                                                 const GotoCartButton_L2 = "c-button c-button-secondary c-button-sm c-button-block "
+                                                                 const GotoCartButton_L1 = "c-button-link go-to-cart"
+                                                                 const GotoCartButton_L2 = "c-button c-button-secondary c-button-md c-button-block"
                                                                  const GotoCartButton_L3 = "c-button c-button-secondary c-button-md c-button-block"
 
                                                                  if (document.getElementsByClassName(GotoCartButton_L1).length > 0)
@@ -554,8 +554,8 @@ function pleasewaitcompletedEventHandler(evt) {
                                                  // Press secondary button
                                                  console.log('Level 2 | Blue Cart Button Appears')
                                                  var GotoCartButton;
-                                                 const GotoCartButton_L1 = "c-button c-button-secondary btn btn-secondary btn-sm c-button-sm btn-block c-button-block"
-                                                 const GotoCartButton_L2 = "c-button c-button-secondary c-button-sm c-button-block "
+                                                 const GotoCartButton_L1 = "c-button-link go-to-cart"
+                                                 const GotoCartButton_L2 = "c-button c-button-secondary c-button-md c-button-block"
                                                  const GotoCartButton_L3 = "c-button c-button-secondary c-button-md c-button-block"
 
                                                  if (document.getElementsByClassName(GotoCartButton_L1).length > 0)
@@ -594,8 +594,8 @@ function pleasewaitcompletedEventHandler(evt) {
                                  // Press secondary button
                                  console.log('Level 1 | Blue Cart Button Appears')
                                  var GotoCartButton;
-                                 const GotoCartButton_L1 = "c-button c-button-secondary btn btn-secondary btn-sm c-button-sm btn-block c-button-block"
-                                 const GotoCartButton_L2 = "c-button c-button-secondary c-button-sm c-button-block "
+                                 const GotoCartButton_L1 = "c-button-link go-to-cart"
+                                 const GotoCartButton_L2 = "c-button c-button-secondary c-button-md c-button-block"
                                  const GotoCartButton_L3 = "c-button c-button-secondary c-button-md c-button-block"
 
                                  if (document.getElementsByClassName(GotoCartButton_L1).length > 0)
@@ -796,82 +796,79 @@ function pleasewaitcompletedEventHandler(evt) {
 
          }
  }
-
-
-
- // CART PAGE OPERATIONS
- else if (location.href.includes("www.bestbuy.com/checkout/r/fast-track")) {
-     //Create Custom Badge
-     //
-     const $badge = createFloatingBadge("Final CheckPoint","Verifying and Submitting");
-     document.body.appendChild($badge);
-     $badge.style.transform = "translate(0, 0)"
-     //
-     //
-     setTimeout(function() {
-         //We will verify that the item in final checkout screen matches the Keyword so we don't have any issues when running multiple scripts for multiple keyword.
-         //In that case the Place Order button is clicked.
-         //
-         var CartItemCheck = document.getElementsByClassName("item-list__spacer text-left item-list__title");
-         //console.log(CartItemCheck[0])
-         //
-         //
-         if (CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)){
-             //
-             console.log('Item Has been Confirmed !')
-             console.log('Click Place Order')
-
-                 //
-                 //document.getElementById("blah").src = "http://......"
-                 // CVV Number of Saved Card
-                 // Bug fix: by craz3drunner (discord member)
-
-                 // CVV Field ID Layers
-                 var CVV_ID;
-                 const CVV_ID_L1 = "cvv"
-                 const CVV_ID_L2 = "credit-card-cvv"
-
-                 if (document.getElementById(CVV_ID_L1) != null)
-                 {
-                      CVV_ID = CVV_ID_L1;
-                      console.log('CVV ID 1 : ' + CVV_ID_L1)
-
-                 } else if (document.getElementById(CVV_ID_L2) != null) {
-
-                     CVV_ID = CVV_ID_L2;
-                     console.log('CVV ID 2 :' + CVV_ID_L2)
-
-                 }
-                 if(document.getElementById(CVV_ID) != null) {
-                     document.getElementById(CVV_ID).focus();
-                     document.getElementById(CVV_ID).select();
-                     if (!document.execCommand('insertText',false, CREDITCARD_CVV)) {
-                         document.getElementById(CVV_ID).value = CREDITCARD_CVV;
-                     }
-                 }
-
-                     if(document.getElementById("text-updates") != null)
-                     {
-                         //
-                         var TextUpdates = document.getElementById("text-updates").click()
-                         //console.log(TextUpdates[0].checked)
-                     }
-                 if (TESTMODE === "No"){
-                 //Is test mode is OFF go press place order button
-                 //
-                 console.log("we are here")
-                 document.getElementsByClassName("btn btn-lg btn-block btn-primary button__fast-track")[0].click()
-                 //
-                 }
-                 //
-                 //
-         }
-     }, 3000); //Three seconds will elapse and Code will execute.
-
-
-
-
+ //  // CART PAGE OPERATIONS
+ // OPERATIONS ON THE FULFILLMENT PAGE
+ else if (location.href.includes("www.bestbuy.com/checkout/r/fulfillment")) {
+    // Create Custom Badge for Fulfillment
+    const $badge = createFloatingBadge("Fulfillment CheckPoint", "Verifying and Submitting");
+    document.body.appendChild($badge);
+    $badge.style.transform = "translate(0, 0)";
+    
+    setTimeout(function() {
+        // Verify that the item on the fulfillment page matches the keyword
+        var CartItemCheck = document.getElementsByClassName("item-list__spacer text-left item-list__title");
+        if (CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)) {
+            console.log('Item has been confirmed on Fulfillment page!');
+            // If not in test mode, click the fulfillment proceed button
+            if (TESTMODE === "No") {
+                console.log('Clicking Fulfillment Proceed Button');
+                // Replace the class name below with the actual fulfillment button's class
+                document.getElementsByClassName("btn btn-lg btn-block btn-secondary")[0].click();
+            }
+        }
+    }, 3000); // Execute after three seconds
  }
+ 
+ // OPERATIONS ON THE PAYMENT PAGE
+ else if (location.href.includes("www.bestbuy.com/checkout/r/payment")) {
+    // Create Custom Badge for Payment
+    const $badge = createFloatingBadge("Payment CheckPoint", "Finalizing Payment");
+    document.body.appendChild($badge);
+    $badge.style.transform = "translate(0, 0)";
+    
+    setTimeout(function() {
+        // Verify that the item on the payment page matches the keyword
+        var CartItemCheck = document.getElementsByClassName("item-list__spacer text-left item-list__title");
+        if (CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)) {
+            console.log('Item has been confirmed on Payment page!');
+            
+            // Determine the correct CVV field ID
+            var CVV_ID;
+            const CVV_ID_L1 = "cvv";
+            const CVV_ID_L2 = "credit-card-cvv";
+            
+            if (document.getElementById(CVV_ID_L1) != null) {
+                CVV_ID = CVV_ID_L1;
+                console.log('CVV ID 1: ' + CVV_ID_L1);
+            } else if (document.getElementById(CVV_ID_L2) != null) {
+                CVV_ID = CVV_ID_L2;
+                console.log('CVV ID 2: ' + CVV_ID_L2);
+            }
+            
+            // Insert the CVV if the field is found
+            if (document.getElementById(CVV_ID) != null) {
+                document.getElementById(CVV_ID).focus();
+                document.getElementById(CVV_ID).select();
+                if (!document.execCommand('insertText', false, CREDITCARD_CVV)) {
+                    document.getElementById(CVV_ID).value = CREDITCARD_CVV;
+                }
+            }
+            
+            // Click the text updates element if available
+            if (document.getElementById("text-updates") != null) {
+                document.getElementById("text-updates").click();
+            }
+            
+            // If test mode is off, click the Place Order (Payment) button
+            if (TESTMODE === "No") {
+                console.log("Finalizing Payment: Placing Order");
+                // Replace the class name below with the actual payment button's class
+                document.getElementsByClassName("btn btn-lg btn-block btn-primary")[0].click();
+            }
+        }
+    }, 3000); // Execute after three seconds
+ }
+ 
  // SIGN IN OPERATIONS
  else if (location.href.includes("www.bestbuy.com/identity/signin")) {
 
