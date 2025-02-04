@@ -79,7 +79,7 @@
 
  const ITEM_KEYWORD= "PNY"; // NO SPACES IN KEYWORD - ONLY ONE WORD
  const CREDITCARD_CVV = "***"; // BOT will run without changing this value.
- const TESTMODE = "Yes"; // TESTMODE = "No" will buy the card
+ const TESTMODE = "No"; // TESTMODE = "No" will buy the card
  const SMS_DIGITS = "****"; // Enter last 4 digits of phone # for SMS verification (required for verification)
 
  //____ PLEASE WAIT FLAGS : ADVANCED OPTIONS _____________________________
@@ -228,41 +228,55 @@ console.log('found sku', sku);
                       //    CART PAGE EventHandler
  //________________________________________________________________________
 
- function cartpageoperationsEvenHandler (evt) {
-     setTimeout(function()
-     {
-             if (location.href.includes("www.bestbuy.com/cart")) {
-                 //Create Custom Badge
-                 //
-                 const $badge = createFloatingBadge("Cart Page 🛑 Do Not Refresh. Only one item can be carted per account.","Verfying that first item in CART has KEYWORD");
-                 document.body.appendChild($badge);
-                 $badge.style.transform = "translate(0, 0)"
-
-                 //Wait 3 Seconds on Cart Page
-                 //
-                 setTimeout(function() {
-                     //We will verify the first time in the cart. If the item name has the Keyword, that means the item was sucessfully added to cart.
-                     //In that case the checkout button is clicked.
-                     //
-                     var CartItemCheck = document.getElementsByClassName("cart-item__title focus-item-0");
-                     //console.log(CartItemCheck[0])
-                     //
-                     //
-                     if (CartItemCheck[0] != null) {
-                         if (CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)){
-                             //
-                             console.log('Item Has been Confirmed !')
-                             console.log('Click Checkout')
-                             var CheckoutButton = document.getElementsByClassName("btn btn-lg btn-block btn-primary");
-                             CheckoutButton[0].click()
-                             CheckoutButton = null ;
-                         }
-                     }
-                 }, 3000 )//Three seconds will elapse and Code will execute.
-
-             }
-     }, 5000)
- }
+ function cartpageoperationsEvenHandler(evt) {
+    setTimeout(() => {
+      if (location.href.includes("www.bestbuy.com/cart")) {
+        // Create and display the badge
+        const $badge = createFloatingBadge(
+          "Cart Page 🛑 Do Not Refresh. Only one item can be carted per account.",
+          "Verfying that first item in CART has KEYWORD"
+        );
+        document.body.appendChild($badge);
+        $badge.style.transform = "translate(0, 0)";
+  
+        // Wait 3 seconds on Cart Page
+        setTimeout(() => {
+          const CartItemCheck = document.getElementsByClassName("cart-item__title focus-item-0");
+          if (CartItemCheck[0] && CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)) {
+            console.log("Item Has been Confirmed!");
+  
+            // Select the shipping button universally using an attribute selector
+            const shippingButton = document.querySelector("input[id^='fulfillment-shipping-']");
+            if (shippingButton) {
+              console.log("Shipping button found. Waiting 3 seconds before clicking it.");
+              // Delay shipping button click by 3 seconds
+              setTimeout(() => {
+                shippingButton.click();
+                console.log("Shipping button clicked. Waiting 3 seconds before clicking checkout.");
+  
+                // Wait an additional 3 seconds after clicking shipping button
+                setTimeout(() => {
+                  const CheckoutButton = document.getElementsByClassName("btn btn-lg btn-block btn-primary");
+                  if (CheckoutButton[0]) {
+                    console.log("Clicking Checkout");
+                    CheckoutButton[0].click();
+                  }
+                }, 3000);
+              }, 3000);
+            } else {
+              console.log("Shipping button not found. Clicking Checkout immediately.");
+              const CheckoutButton = document.getElementsByClassName("btn btn-lg btn-block btn-primary");
+              if (CheckoutButton[0]) {
+                CheckoutButton[0].click();
+              }
+            }
+          }
+        }, 3000);
+      }
+    }, 5000);
+  }
+  
+  
 
  //________________________________________________________________________
 
