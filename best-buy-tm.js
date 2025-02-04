@@ -46,9 +46,9 @@
 // - Increase Verfication Time from 1.5 - 2.5s
 // - Automatic 5 seconds signin after cart when running on private container tabs
 // - QueueTimer Functions gets called when really please wait is detected
-// - Updated Bot Messages 
+// - Updated Bot Messages
 // 4.1 BB Queue Timer and Sign-In on Container tabs
-// - Fixed issue of new side tab thingy 
+// - Fixed issue of new side tab thingy
 */
 
 // ==/UserScript==
@@ -99,7 +99,7 @@
 
 // Play a chime sound to notify the user
 function playChime() {
-    // You can choose any online sound file. 
+    // You can choose any online sound file.
     const chimeUrl = "https://github.com/kkapuria3/BestBuy-GPU-Bot/blob/dev-v2.5-mem_leak_fix/resources/alert.mp3?raw=true";
     const audio = new Audio(chimeUrl);
     audio.play().catch(err => console.error("Audio play failed:", err));
@@ -796,47 +796,42 @@ function pleasewaitcompletedEventHandler(evt) {
 
          }
  }
- //  // CART PAGE OPERATIONS
- // OPERATIONS ON THE FULFILLMENT PAGE
- else if (location.href.includes("www.bestbuy.com/checkout/r/fulfillment")) {
-    // Create Custom Badge for Fulfillment
-    const $badge = createFloatingBadge("Fulfillment CheckPoint", "Verifying and Submitting");
-    document.body.appendChild($badge);
-    $badge.style.transform = "translate(0, 0)";
-    
-    setTimeout(function() {
-        // Verify that the item on the fulfillment page matches the keyword
-        var CartItemCheck = document.getElementsByClassName("item-list__spacer text-left item-list__title");
-        if (CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)) {
-            console.log('Item has been confirmed on Fulfillment page!');
-            // If not in test mode, click the fulfillment proceed button
-            if (TESTMODE === "No") {
-                console.log('Clicking Fulfillment Proceed Button');
-                // Replace the class name below with the actual fulfillment button's class
-                document.getElementsByClassName("btn btn-lg btn-block btn-secondary")[0].click();
-            }
-        }
-    }, 3000); // Execute after three seconds
- }
+
+ if (location.href.includes("www.bestbuy.com/checkout/r/fulfillment")) {
+     // Create Custom Badge for Fulfillment
+     const $badge = createFloatingBadge("Fulfillment CheckPoint", "Verifying and Submitting");
+     document.body.appendChild($badge);
+     $badge.style.transform = "translate(0, 0)";
  
- // OPERATIONS ON THE PAYMENT PAGE
- else if (location.href.includes("www.bestbuy.com/checkout/r/payment")) {
-    // Create Custom Badge for Payment
+     setTimeout(function() {
+         // Verify that the item on the fulfillment page matches the keyword
+         var CartItemCheck = document.getElementsByClassName("item-list__spacer text-left item-list__title");
+         if (CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)) {
+             console.log('Item has been confirmed on Fulfillment page!');
+             if (TESTMODE === "No") {
+                 console.log('Clicking Fulfillment Proceed Button');
+                 document.getElementsByClassName("btn btn-lg btn-block btn-secondary")[0].click();
+             }
+         }
+         // Now run additional code 5 seconds after the above code finishes
+         setTimeout(function(){
+             console.log("Running additional code 5 seconds after fulfillment operations.");
+             // Create Custom Badge for Payment
     const $badge = createFloatingBadge("Payment CheckPoint", "Finalizing Payment");
     document.body.appendChild($badge);
     $badge.style.transform = "translate(0, 0)";
-    
+
     setTimeout(function() {
         // Verify that the item on the payment page matches the keyword
         var CartItemCheck = document.getElementsByClassName("item-list__spacer text-left item-list__title");
         if (CartItemCheck[0].innerHTML.includes(ITEM_KEYWORD)) {
             console.log('Item has been confirmed on Payment page!');
-            
+
             // Determine the correct CVV field ID
             var CVV_ID;
             const CVV_ID_L1 = "cvv";
             const CVV_ID_L2 = "credit-card-cvv";
-            
+
             if (document.getElementById(CVV_ID_L1) != null) {
                 CVV_ID = CVV_ID_L1;
                 console.log('CVV ID 1: ' + CVV_ID_L1);
@@ -844,7 +839,7 @@ function pleasewaitcompletedEventHandler(evt) {
                 CVV_ID = CVV_ID_L2;
                 console.log('CVV ID 2: ' + CVV_ID_L2);
             }
-            
+
             // Insert the CVV if the field is found
             if (document.getElementById(CVV_ID) != null) {
                 document.getElementById(CVV_ID).focus();
@@ -853,22 +848,27 @@ function pleasewaitcompletedEventHandler(evt) {
                     document.getElementById(CVV_ID).value = CREDITCARD_CVV;
                 }
             }
-            
+
             // Click the text updates element if available
             if (document.getElementById("text-updates") != null) {
                 document.getElementById("text-updates").click();
             }
-            
+
             // If test mode is off, click the Place Order (Payment) button
             if (TESTMODE === "No") {
                 console.log("Finalizing Payment: Placing Order");
                 // Replace the class name below with the actual payment button's class
                 document.getElementsByClassName("btn btn-lg btn-block btn-primary")[0].click();
-            }
-        }
-    }, 3000); // Execute after three seconds
+                    }
+                }
+            }, 3000); // Execute after three seconds
+             // Place your additional code here
+         }, 6000);
+     }, 3000); // Execute after three seconds
  }
  
+
+
  // SIGN IN OPERATIONS
  else if (location.href.includes("www.bestbuy.com/identity/signin")) {
 
