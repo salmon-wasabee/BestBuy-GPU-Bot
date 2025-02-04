@@ -77,7 +77,7 @@
 
  //____ REQUIRED FLAGS ____________________________________________________
 
- const ITEM_KEYWORD= "PNY"; // NO SPACES IN KEYWORD - ONLY ONE WORD
+ const ITEM_KEYWORD= "5090"; // NO SPACES IN KEYWORD - ONLY ONE WORD
  const CREDITCARD_CVV = "***"; // BOT will run without changing this value.
  const TESTMODE = "No"; // TESTMODE = "No" will buy the card
  const SMS_DIGITS = "****"; // Enter last 4 digits of phone # for SMS verification (required for verification)
@@ -699,7 +699,7 @@ function pleasewaitcompletedEventHandler(evt) {
          //Out of Stock Button
          //
          var OOSButton;
-         const OOSButton_L1 = "c-button c-button-disabled c-button-lg c-button-block add-to-cart-button c-button-secondary c-button-md"
+         const OOSButton_L1 = "c-button c-button-disabled c-button-lg c-button-block add-to-cart-button "
          const OOSButton_L2 = "btn btn-disabled btn-lg btn-block add-to-cart-button"
          const OOSButton_L3 = "c-button c-button-secondary c-button-md c-button-block"
          console.log('BEGIN ')
